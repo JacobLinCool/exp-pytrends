@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.font_manager as fm
 from matplotlib import rcParams
+import time
 
 
 cache_dir = os.path.join(os.path.dirname(__file__), "cache")
@@ -20,16 +21,25 @@ memory = Memory(cache_dir, verbose=0)
 def fetch_data(
     pytrends: TrendReq, keywords: list, start_date: datetime, days: int, geo: str
 ):
+    start_time = time.time()
+
     start = start_date.strftime("%Y-%m-%d")
     end = (start_date + timedelta(days=days)).strftime("%Y-%m-%d")
     timeframe = f"{start}T00 {end}T00"
     pytrends.build_payload(keywords, cat=0, timeframe=timeframe, geo=geo, gprop="")
     res = pytrends.interest_over_time()
+
     if res.empty:
         return res
 
     res.index = pd.to_datetime(res.index)
     res.index = res.index.tz_localize(pytz.utc).tz_convert(pytz.timezone("Asia/Taipei"))
+
+    # Throttling to ensure the request takes at least 0.5 second
+    elapsed_time = time.time() - start_time
+    if elapsed_time < 0.5:
+        time.sleep(0.5 - elapsed_time)
+
     return res
 
 
@@ -37,7 +47,7 @@ def fetch_google_trends(keywords, start_date, end_date, geo="TW", overlap=1):
     if isinstance(keywords, str):
         keywords = [keywords]
 
-    pytrends = TrendReq(geo=geo, retries=5, backoff_factor=1)
+    pytrends = TrendReq(geo=geo, retries=10, backoff_factor=1)
 
     current_date = datetime.strptime(start_date, "%Y-%m-%d")
     end_date = datetime.strptime(end_date, "%Y-%m-%d")

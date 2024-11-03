@@ -1,0 +1,9 @@
+title: Google Trends Data Fetcher
+emoji: 📈
+colorFrom: gray
+colorTo: indigo
+sdk: gradio
+sdk_version: 5.4.0
+app_file: app.py
+pinned: false
+license: mit

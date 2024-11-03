@@ -16,7 +16,9 @@ Before you begin, make sure you have Python installed on your computer. This scr
 
 ## How to Use
 
-To use this tool, you'll run it from the command line with specific arguments. Here's the basic structure:
+> To run as web app, use `python app.py` and open `http://127.0.0.1:7860`.
+
+To use this tool as command line tool, you'll run it from the command line with specific arguments. Here's the basic structure:
 
 ### Required Arguments
 

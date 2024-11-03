@@ -4,3 +4,4 @@ pandas==2.2.3
 tqdm==4.66.5
 pytz==2024.2
 urllib3==1.26.20
+matplotlib==3.9.2

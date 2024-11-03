@@ -1,4 +1,5 @@
 *.csv
+*.png
 
 !google_trends_股票_20240901_20240930_TW.csv
 !google_trends_憂鬱_20240901_20240930_TW.csv
